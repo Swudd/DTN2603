@@ -183,3 +183,36 @@ select *
 froM `account`
 where full_name like "D%o";
 
+-- Question 12: Xóa tất cả các exam được tạo trước ngày 20/12/2019
+
+DELETE eq FROM exam_question eq
+JOIN exam e ON eq.exam_id = e.exam_id
+WHERE e.create_date < '2019-12-20';
+
+DELETE FROM exam
+WHERE create_date < '2019-12-20';
+
+-- Question 13: Xóa tất cả các question có nội dung bắt đầu bằng từ "câu hỏi"
+
+DELETE a FROM answer a
+JOIN question q ON a.question_id = q.question_id
+WHERE q.content LIKE 'câu hỏi%';
+
+DELETE eq FROM exam_question eq
+JOIN question q ON eq.question_id = q.question_id
+WHERE q.content LIKE 'câu hỏi%';
+
+DELETE FROM question
+WHERE content LIKE 'câu hỏi%';
+
+-- Question 14: Update thông tin của account có id = 5 thành tên "Nguyễn Bá Lộc" và email thành loc.nguyenba@vti.com.vn
+
+update `account`
+set username = 'Nguyễn Bá Lộc', email = "loc.nguyenba@vti.com.vn"
+where account_id = 5;
+
+-- Question 15: update account có id = 5 sẽ thuộc group có id = 4
+
+update group_account
+set group_id = 4
+where account_id = 5;
