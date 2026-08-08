@@ -1,92 +1,92 @@
 USE testing_system;
 -- Question 1: Viết lệnh để lấy ra danh sách nhân viên và thông tin phòng ban của họ
 
-Select *
-from account acc
-left join department de on acc.department_id = de.department_id;
+SELECT *
+FROM account acc
+LEFT JOIN department de ON acc.department_id = de.department_id;
 
 -- Question 2: Viết lệnh để lấy ra thông tin các account được tạo sau ngày 20/12/2010
 
-select account_id, email, username, full_name, department_name, position_name, create_date
-from account acc
-left join department de on acc.department_id = de.department_id
-left join position po on acc.position_id = po.position_id
-where create_date > "2010-12-20" ;
+SELECT account_id, email, username, full_name, department_name, position_name, create_date
+FROM account acc
+LEFT JOIN department de ON acc.department_id = de.department_id
+LEFT JOIN position po ON acc.position_id = po.position_id
+WHERE create_date > "2010-12-20" ;
 
 -- Question 3: Viết lệnh để lấy ra tất cả các developer
 
-select account_id, email, username, full_name, position_name, create_date
-from account acc
-left join position po on acc.position_id = po.position_id
-where position_name = "DEV";
+SELECT account_id, email, username, full_name, position_name, create_date
+FROM account acc
+LEFT JOIN position po ON acc.position_id = po.position_id
+WHERE position_name = "DEV";
 
 -- Question 4: Viết lệnh để lấy ra danh sách các phòng ban có >3 nhân viên
 
-select de.department_id, department_name ,count(username) as count
-from department de
-left join account acc on de.department_id = acc.department_id
-group by de.department_id, department_name
-having count(username) > 3;
+SELECT de.department_id, department_name ,COUNT(username) AS count
+FROM department de
+LEFT JOIN account acc ON de.department_id = acc.department_id
+GROUP BY de.department_id, department_name
+HAVING COUNT(username) > 3;
 
 -- Question 5: Viết lệnh để lấy ra danh sách câu hỏi được sử dụng trong đề thi nhiều nhất
 
 -- lay count nhieu nhat
-select count(1) as count
-from exam_question
-group by question_id
-order by count desc
-limit 1;
+SELECT COUNT(1) AS count
+FROM exam_question
+GROUP BY question_id
+ORDER BY count DESC
+LIMIT 1;
 
-select qe.question_id, qe.content, count(1) as count
-from exam_question eq
-join question qe on eq.question_id = qe.question_id
-group by qe.question_id, qe.content
-having count = (select count(1) as count
-		from exam_question
-		group by question_id
-		order by count desc
-		limit 1);
+SELECT qe.question_id, qe.content, COUNT(1) AS count
+FROM exam_question eq
+JOIN question qe ON eq.question_id = qe.question_id
+GROUP BY qe.question_id, qe.content
+HAVING count = (SELECT COUNT(1) AS count
+		FROM exam_question
+		GROUP BY question_id
+		ORDER BY count DESC
+		LIMIT 1);
 
 -- Question 6: Thông kê mỗi category Question được sử dụng trong bao nhiêu Question
         
-select c.category_id, c.category_name, count(q.question_id) as count
-from category_question c
-left join question q on c.category_id = q.category_id
-group by c.category_id, c.category_name;
+SELECT c.category_id, c.category_name, COUNT(q.question_id) AS count
+FROM category_question c
+LEFT JOIN question q ON c.category_id = q.category_id
+GROUP BY c.category_id, c.category_name;
 
 -- Question 7: Thông kê mỗi Question được sử dụng trong bao nhiêu Exam
 
-select q.question_id, q.content, count(exam_id) as count
-from question q
-left join exam_question e on q.question_id = e.question_id
-group by q.question_id, q.content;
+SELECT q.question_id, q.content, COUNT(exam_id) AS count
+FROM question q
+LEFT JOIN exam_question e ON q.question_id = e.question_id
+GROUP BY q.question_id, q.content;
 
 -- Question 8: Lấy ra Question có nhiều câu trả lời nhất
 
-select count(answer_id) as count
-from question q
-left join answer a on q.question_id = a.question_id
-group by q.question_id
-order by count desc
-limit 1;
+SELECT COUNT(answer_id) AS count
+FROM question q
+LEFT JOIN answer a ON q.question_id = a.question_id
+GROUP BY q.question_id
+ORDER BY count DESC
+LIMIT 1;
 
-select q.question_id, q.content, count(answer_id) as count
-from question q
-left join answer a on q.question_id = a.question_id
-group by q.question_id, q.content
-having count = (select count(answer_id) as count
-				from question q2
-				left join answer a2 on q2.question_id = a2.question_id
-				group by q2.question_id
-				order by count desc
-				limit 1);
+SELECT q.question_id, q.content, COUNT(answer_id) AS count
+FROM question q
+LEFT JOIN answer a ON q.question_id = a.question_id
+GROUP BY q.question_id, q.content
+HAVING count = (SELECT COUNT(answer_id) AS count
+				FROM question q2
+				LEFT JOIN answer a2 ON q2.question_id = a2.question_id
+				GROUP BY q2.question_id
+				ORDER BY count DESC
+				LIMIT 1);
                 
 -- Question 9: Thống kê số lượng account trong mỗi group
 
-select g.group_id, g.group_name, count(ga.account_id) as count
-from `group` g
-left join group_account ga on g.group_id = ga.group_id
-group by g.group_id, g.group_name;
+SELECT g.group_id, g.group_name, COUNT(ga.account_id) AS count
+FROM `group` g
+LEFT JOIN group_account ga ON g.group_id = ga.group_id
+GROUP BY g.group_id, g.group_name;
 
 -- Question 10: Tìm chức vụ có ít người nhất
 
