@@ -133,6 +133,12 @@ BEGIN
         INSERT INTO department (department_name) VALUES ('Phòng chờ');
         SET v_department_id = LAST_INSERT_ID();
     END IF;
+    
+--    INSERT INTO department(department_name)
+--    SELECT 'Phòng chờ'
+--    WHERE NOT EXISTS (
+	-- SELECT 1 FROM department WHERE department_name LIKE 'Phòng chờ'
+-- );
 
     --  Thêm account mới
     INSERT INTO `account` (email, username, full_name, department_id, position_id)
@@ -199,6 +205,15 @@ CALL delete_exam_by_id(3);
 -- Sau đó in số lượng record đã remove từ các table liên quan trong khi removing
 
 
+
+DELIMITER $$
+CREATE PROCEDURE q10()
+	BEGIN
+		DECLARE count_exam_delete int;
+        DECLARE count_exam_question_delete int;
+        DECLARE
+    END $$
+DELIMTER ;
 
 -- Question 11: Viết store cho phép người dùng xóa phòng ban bằng cách người dùng
 -- nhập vào tên phòng ban và các account thuộc phòng ban đó sẽ được
