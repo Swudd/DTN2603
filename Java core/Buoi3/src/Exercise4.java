@@ -10,7 +10,9 @@ public class Exercise4 {
     }
 
     public static String question2(String s1, String s2){
-        return s1+ s2;
+        StringBuilder s = new StringBuilder().append(s1).append(s2);
+        System.out.println(s);
+        return  s.toString();
     }
 
     public static String capitalizeName(String name) {
