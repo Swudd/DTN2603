@@ -1,24 +1,24 @@
 package Entity;
 
 public class TaiLieu {
-    private int maTaiLieu;
+    private String maTaiLieu;
     private String nhaXuatBan;
     private int soBanPhatHanh;
 
     public TaiLieu() {
     }
 
-    public TaiLieu(int maTaiLieu, String nhaXuatBan, int soBanPhatHanh) {
+    public TaiLieu(String maTaiLieu, String nhaXuatBan, int soBanPhatHanh) {
         this.maTaiLieu = maTaiLieu;
         this.nhaXuatBan = nhaXuatBan;
         this.soBanPhatHanh = soBanPhatHanh;
     }
 
-    public int getMaTaiLieu() {
+    public String getMaTaiLieu() {
         return maTaiLieu;
     }
 
-    public void setMaTaiLieu(int maTaiLieu) {
+    public void setMaTaiLieu(String maTaiLieu) {
         this.maTaiLieu = maTaiLieu;
     }
 
