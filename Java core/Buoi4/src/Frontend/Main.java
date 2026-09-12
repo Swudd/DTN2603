@@ -15,7 +15,8 @@ public class Main {
             System.out.println("b. Xoa tai lieu theo ma tai lieu");
             System.out.println("c. Hien thi thong tin tai lieu");
             System.out.println("d. Tim kiem tai lieu theo loai");
-            System.out.println("e. Thoat");
+            System.out.println("e. Update tai lieu theo ma");
+            System.out.println("f. Thoat");
             System.out.println("======================================");
             System.out.print("Nhap lua chon: ");
             String input = sc.nextLine();
@@ -34,6 +35,9 @@ public class Main {
                     qltv.timTaiLieuTheoLoai();
                     break;
                 case "e":
+                    qltv.suaTenNXBTheoMaTaiLieu();
+                    break;
+                case "f":
                     System.exit(0);
                 default:
                     System.out.println("Lua chon khong hop le!");

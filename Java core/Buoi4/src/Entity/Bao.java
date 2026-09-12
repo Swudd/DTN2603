@@ -8,8 +8,8 @@ public class Bao extends TaiLieu{
     public Bao() {
     }
 
-    public Bao(String maTaiLieu, String nhaXuatBan, int soBanPhatHanh, String ngayPhatHanh) {
-        super(maTaiLieu, nhaXuatBan, soBanPhatHanh);
+    public Bao(String maTaiLieu, String nhaXuatBan, int soBanPhatHanh,LoaiTaiLieu loaiTaiLieu, String ngayPhatHanh) {
+        super(maTaiLieu, nhaXuatBan, soBanPhatHanh, loaiTaiLieu);
         this.ngayPhatHanh = ngayPhatHanh;
     }
 

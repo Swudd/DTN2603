@@ -7,8 +7,8 @@ public class Sach extends TaiLieu{
     public Sach() {
     }
 
-    public Sach(String maTaiLieu, String nhaXuatBan, int soBanPhatHanh, String tacGia, int soTrang) {
-        super(maTaiLieu, nhaXuatBan, soBanPhatHanh);
+    public Sach(String maTaiLieu, String nhaXuatBan, int soBanPhatHanh,LoaiTaiLieu loaiTaiLieu, String tacGia, int soTrang) {
+        super(maTaiLieu, nhaXuatBan, soBanPhatHanh, loaiTaiLieu);
         this.tacGia = tacGia;
         this.soTrang = soTrang;
     }

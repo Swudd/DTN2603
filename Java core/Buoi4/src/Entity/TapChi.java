@@ -9,8 +9,8 @@ public class TapChi extends TaiLieu{
     public TapChi() {
     }
 
-    public TapChi(String maTaiLieu, String nhaXuatBan, int soBanPhatHanh, int soPhatHanh, String thangPhatHanh) {
-        super(maTaiLieu, nhaXuatBan, soBanPhatHanh);
+    public TapChi(String maTaiLieu, String nhaXuatBan, int soBanPhatHanh, int soPhatHanh,LoaiTaiLieu loaiTaiLieu, String thangPhatHanh) {
+        super(maTaiLieu, nhaXuatBan, soBanPhatHanh, loaiTaiLieu);
         this.soPhatHanh = soPhatHanh;
         this.thangPhatHanh = thangPhatHanh;
     }

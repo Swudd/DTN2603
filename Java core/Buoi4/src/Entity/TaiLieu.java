@@ -4,14 +4,16 @@ public class TaiLieu {
     private String maTaiLieu;
     private String nhaXuatBan;
     private int soBanPhatHanh;
+    private LoaiTaiLieu loaiTaiLieu;
 
     public TaiLieu() {
     }
 
-    public TaiLieu(String maTaiLieu, String nhaXuatBan, int soBanPhatHanh) {
+    public TaiLieu(String maTaiLieu, String nhaXuatBan, int soBanPhatHanh, LoaiTaiLieu loaiTaiLieu) {
         this.maTaiLieu = maTaiLieu;
         this.nhaXuatBan = nhaXuatBan;
         this.soBanPhatHanh = soBanPhatHanh;
+        this.loaiTaiLieu = loaiTaiLieu;
     }
 
     public String getMaTaiLieu() {
@@ -36,5 +38,13 @@ public class TaiLieu {
 
     public void setSoBanPhatHanh(int soBanPhatHanh) {
         this.soBanPhatHanh = soBanPhatHanh;
+    }
+
+    public LoaiTaiLieu getLoaiTaiLieu() {
+        return loaiTaiLieu;
+    }
+
+    public void setLoaiTaiLieu(LoaiTaiLieu loaiTaiLieu) {
+        this.loaiTaiLieu = loaiTaiLieu;
     }
 }

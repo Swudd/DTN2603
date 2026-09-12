@@ -1,9 +1,6 @@
 package Backend;
 
-import Entity.Bao;
-import Entity.Sach;
-import Entity.TaiLieu;
-import Entity.TapChi;
+import Entity.*;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -18,65 +15,109 @@ public class QLTV implements IQLTV{
 
     @Override
     public void themTaiLieu() {
-        System.out.println("Chon loai tai lieu: 1: Sach    2: Tap Chi    Khac: Bao");
+        System.out.println("Nhập mã tài liệu: ");
+        String maTaiLieu = sc.nextLine();
+        System.out.println("Nhập tên NXB: ");
+        String tenNhaXuatBan = sc.nextLine();
+        System.out.println("Nhập số bản phát hành: ");
+        int soBanPhatHanh = sc.nextInt();
+        sc.nextLine();
 
-        int type = Integer.parseInt(sc.nextLine());
-
-        System.out.print("Nhap ma tai lieu: ");
-        String ma = sc.nextLine();
-
-        for (TaiLieu tl : taiLieus) {
-            if (tl.getMaTaiLieu().equals(ma)) {
-                System.out.println("Ma tai lieu da ton tai!");
-                return;
-            }
-        }
-
-        System.out.print("Nhap nha xuat ban: ");
-        String nxb = sc.nextLine();
-
-        System.out.print("Nhap so ban phat hanh: ");
-        int soBan = Integer.parseInt(sc.nextLine());
-
-        switch (type) {
-            case 1:
-                System.out.print("Nhap ten tac gia: ");
-                String tacGia = sc.nextLine();
-
-                System.out.print("Nhap so trang: ");
-                int soTrang = Integer.parseInt(sc.nextLine());
-
-                taiLieus.add(new Sach(ma, nxb, soBan, tacGia, soTrang));
+        System.out.println("Mời bạn chọn loại tài liệu: 1.Sách  2. Báo  Khác. Tạp chí");
+        String choice = sc.nextLine();
+        TaiLieu taiLieu;
+        LoaiTaiLieu loaiTaiLieu = null;
+        String tenTacGia = null;
+        Integer soTrang = null;
+        String soPhatHanh = null;
+        Integer thangPhatHanh = null;
+        StringBuilder sub_column = new StringBuilder();
+        StringBuilder sub_value = new StringBuilder();
+        switch (choice) {
+            case "1":
+                System.out.println("Nhập tên tác giả: ");
+                tenTacGia = sc.nextLine();
+                System.out.println("Nhập số trang: ");
+                soTrang = sc.nextInt();
+                sc.nextLine();
+                loaiTaiLieu = LoaiTaiLieu.SACH;
+                sub_column.append(" ten_tac_gia, so_trang");
+                sub_value.append(tenTacGia).append(", ").append(soTrang);
                 break;
-
-            case 2:
-                System.out.print("Nhap so phat hanh: ");
-                int soPhatHanh = Integer.parseInt(sc.nextLine());
-
-                System.out.print("Nhap ngay phat hanh: ");
-                String ngayTapChi = sc.nextLine();
-
-                taiLieus.add(new TapChi(ma, nxb, soBan, soPhatHanh, ngayTapChi));
-                break;
-
-            case 3:
-                System.out.print("Nhap ngay phat hanh: ");
-                String ngayBao = sc.nextLine();
-
-                taiLieus.add(new Bao(ma, nxb, soBan, ngayBao));
+            case "2":
+                System.out.println("Nhập ngày phát hành: ");
+                int ngayPH = sc.nextInt();
+                System.out.println("Nhập tháng phát hành: ");
+                int thangPH = sc.nextInt();
+                System.out.println("Nhập năm phát hành: ");
+                int namPH = sc.nextInt();
+                sc.nextLine();
+                loaiTaiLieu = LoaiTaiLieu.BAO;
+                sub_column.append(" ngay_phat_hanh");
+                sub_value.append(String.format("'%d-%d-%d'", namPH, thangPH, ngayPH));
                 break;
             default:
-                System.out.println("Loai tai lieu khong hop le!");
-                return;
+                System.out.println("Nhập số phát hành: ");
+                soPhatHanh = sc.nextLine();
+                System.out.println("Nhập tháng phát hành: ");
+                thangPhatHanh = sc.nextInt();
+                loaiTaiLieu = LoaiTaiLieu.TAP_CHI;
+                sub_column.append(" so_phat_hanh, thang_phat_hanh");
+                sub_value.append(soPhatHanh).append(", ").append(thangPhatHanh);
+                sc.nextLine();
+        }
+// lưu đối tượng taiLieu vào DB
+        String url = "jdbc:mysql://localhost:3306/qltv";
+        String username = "root";
+        String password = "1234";
+        try {
+            // kết nối
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String sql = "INSERT INTO tai_lieu (ma_tai_lieu, ten_nxb, so_ban_phat_hanh, loai_tai_lieu, "+ sub_column +") \n" +
+                    "\tVALUES (?, ?, ?, ?, "+ sub_value +")";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, maTaiLieu);
+            preparedStatement.setString(2, tenNhaXuatBan);
+            preparedStatement.setInt(3, soBanPhatHanh);
+            preparedStatement.setString(4, loaiTaiLieu.name());
+
+            int c = preparedStatement.executeUpdate();// c: trả ra số row thay đổi khi thêm sửa xóa
+            if (c > 0) {
+                System.out.println("Thêm tài liệu thành công!");
+            } else {
+                System.out.println("Thêm tài liệu không thành công!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        System.out.println("Them tai lieu thanh cong!");
     }
 
     @Override
     public void xoaTaiLieuTheoID() {
         System.out.print("Nhap ma tai lieu can xoa: ");
-        int ma = sc.nextInt();
+        String ma = sc.nextLine();
+
+        String url = "jdbc:mysql://localhost:3306/qltv";
+        String username = "root";
+        String password = "1234";
+
+        try{
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String sql = "DELETE FROM tai_lieu WHERE ma_tai_lieu = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, ma);
+
+            int c = preparedStatement.executeUpdate();
+            if (c > 0) {
+                System.out.println("xoa tai lieu thanh cong");
+            }else {
+                System.out.println("xoa tai lieu that bai");
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
         taiLieus.removeIf(tl -> tl.getMaTaiLieu().equals(ma));
     }
 
@@ -107,7 +148,7 @@ public class QLTV implements IQLTV{
                 String maTaiLieu = resultSet.getString("ma_tai_lieu");
                 String nxb = resultSet.getString("ten_nxb");
                 int soBan = resultSet.getInt("so_ban_phat_hanh");
-                TaiLieu taiLieu = new TaiLieu(maTaiLieu, nxb, soBan);
+                TaiLieu taiLieu = new TaiLieu(maTaiLieu, nxb, soBan, LoaiTaiLieu.BAO);
                 taiLieus.add(taiLieu);
             }
         } catch (SQLException e) {
@@ -166,7 +207,7 @@ public class QLTV implements IQLTV{
                 String maTaiLieu = resultSet.getString("ma_tai_lieu");
                 String nxb = resultSet.getString("ten_nxb");
                 int soBan = resultSet.getInt("so_ban_phat_hanh");
-                TaiLieu tl = new TaiLieu(maTaiLieu, nxb, soBan);
+                TaiLieu tl = new TaiLieu(maTaiLieu, nxb, soBan, LoaiTaiLieu.BAO);
                 ketQua.add(tl);
             }
         } catch (SQLException e) {
@@ -190,9 +231,32 @@ public class QLTV implements IQLTV{
 
     }
 
-    public static void main(String[] args) {
-        QLTV qltv= new QLTV();
-        //qltv.hienThiTaiLieu();
-        qltv.timTaiLieuTheoLoai();
+    public void suaTenNXBTheoMaTaiLieu() {
+        System.out.println("Nhap ma tai lieu can sua: ");
+        String maTaiLieu = sc.nextLine();
+        System.out.println("Nhap nxb can sua: ");
+        String nxb = sc.nextLine();
+        String url = "jdbc:mysql://localhost:3306/qltv";
+        String username = "root";
+        String password = "1234";
+
+        try{
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String sql = "UPDATE tai_lieu SET ten_nxb=? WHERE ma_tai_lieu=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, nxb);
+            statement.setString(2, maTaiLieu);
+
+            int c = statement.executeUpdate();
+
+            if (c > 0) {
+                System.out.println("Thanh cong");
+            } else {
+                System.out.println("that bai");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 }
