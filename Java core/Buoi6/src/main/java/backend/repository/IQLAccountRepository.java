@@ -1,0 +1,13 @@
+package backend.repository;
+
+import entity.Account;
+
+import java.util.List;
+
+public interface IQLAccountRepository {
+    List<Account> GetAllAccounts();
+    List<Account> FindAccountByName(String name);
+    boolean AddAccount(Account account);
+    boolean DeleteAccount(int accountId);
+    boolean UpdateAccount(String accountName,  int accountId);
+}

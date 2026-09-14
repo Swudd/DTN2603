@@ -2,6 +2,7 @@ package Backend;
 
 import Entity.Account;
 import Entity.Gender;
+import utils.JDBCUtils;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -159,12 +160,10 @@ public class QLAccount implements IQLAccount {
         int userID = sc.nextInt();
         sc.nextLine();
 
-        String url = "jdbc:mysql://localhost:3306/testing_system";
-        String dbusername = "root";
-        String password = "1234";
+        JDBCUtils jdbcUtils = new JDBCUtils();
 
         try {
-            Connection connection = DriverManager.getConnection(url, dbusername, password);
+            Connection connection = jdbcUtils.getConnection();
             String sql = "DELETE FROM account WHERE account_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, userID);
@@ -174,6 +173,7 @@ public class QLAccount implements IQLAccount {
             } else   {
                 System.out.println("Failed to delete account");
             }
+            jdbcUtils.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
