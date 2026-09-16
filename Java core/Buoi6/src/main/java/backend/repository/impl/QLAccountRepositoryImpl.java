@@ -141,4 +141,73 @@ public class QLAccountRepositoryImpl implements IQLAccountRepository {
         }
         return false;
     }
+
+    @Override
+    public boolean CheckUsernameExist(String username) {
+        Connection connection = null;
+        try{
+            connection = JDBCUtils.getConnection();
+
+            String sql = "select * from `account` where username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,username);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.closeConnection(connection);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean CheckEmailExist(String email) {
+        Connection connection = null;
+        try{
+            connection = JDBCUtils.getConnection();
+
+            String sql = "select * from `account` where email = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,email);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.closeConnection(connection);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean CheckAccountIdExist(int accountId) {
+        Connection connection = null;
+        try{
+            connection = JDBCUtils.getConnection();
+
+            String sql = "select * from `account` where account_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,accountId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.closeConnection(connection);
+        }
+        return false;
+    }
 }

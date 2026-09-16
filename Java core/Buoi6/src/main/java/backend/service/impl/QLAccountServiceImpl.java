@@ -38,4 +38,19 @@ public class QLAccountServiceImpl implements IQLAccountService {
     public boolean UpdateAccount(String accountName, int accountId) {
         return repository.UpdateAccount(accountName,accountId);
     }
+
+    @Override
+    public boolean CheckUsernameExist(String username) {
+        return repository.CheckUsernameExist(username);
+    }
+
+    @Override
+    public boolean CheckEmailExist(String email) {
+        return  repository.CheckEmailExist(email);
+    }
+
+    @Override
+    public boolean CheckAccountIdExist(int accountId) {
+        return repository.CheckAccountIdExist(accountId);
+    }
 }

@@ -14,4 +14,8 @@ public class QLPositionController {
         List<Position> positions = service.getAllPositions();
         return positions;
     }
+
+    public boolean CheckExists(int positionId){
+        return service.CheckExists(positionId);
+    }
 }

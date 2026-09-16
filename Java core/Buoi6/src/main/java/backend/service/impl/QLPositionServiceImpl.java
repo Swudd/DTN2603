@@ -17,4 +17,9 @@ public class QLPositionServiceImpl implements IQLPositionService {
     public List<Position> getAllPositions() {
         return repository.getAllPositions();
     }
+
+    @Override
+    public boolean CheckExists(int positionId) {
+        return repository.CheckExists(positionId);
+    }
 }

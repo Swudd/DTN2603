@@ -17,4 +17,9 @@ public class QLDepartmentServiceImpl implements IQLDepartmentService {
     public List<Department> getAllDepartments() {
         return qlDepartment.GetAllDepartments();
     }
+
+    @Override
+    public boolean CheckExists(int departmentId) {
+        return qlDepartment.CheckExists(departmentId);
+    }
 }

@@ -26,6 +26,22 @@ public class Function {
         PController = new QLPositionController();
     }
 
+    public String checkLength(int min, int max) {
+        while (true) {
+            String text = scanner.nextLine();
+            if (text.trim().length() < min || text.trim().length() > max) {
+                System.err.println(String.format("Vui lòng nhập từ %d đến %d kí tự!\n", min, max));
+                continue;
+            }
+            return text;
+        }
+    }
+
+    public static boolean isValidEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        return email != null && email.matches(regex);
+    }
+
     public void showAllAccounts(){
         System.out.println("==== Hiển thị toàn bộ account ====");
         List<Account> accounts = AController.getAllAccount();
@@ -40,8 +56,23 @@ public class Function {
     }
 
     public void deleteAccount(){
-        System.out.println("Nhập account id: ");
-        int id = scanner.nextInt();
+        int id;
+        while (true) {
+            System.out.println("Nhập account id: ");
+
+            if (scanner.hasNextInt()) {
+                id = scanner.nextInt();
+                scanner.nextLine();
+                if(!AController.CheckAccountIdExist(id)){
+                    System.err.println("Account không tồn tại");
+                    continue;
+                }
+                break;
+            } else {
+                System.out.println("ID phải là số. Vui lòng nhập lại!");
+                scanner.nextLine();
+            }
+        }
         scanner.nextLine();
         if (AController.DeleteAccount(id) == true){
             System.out.println("Xóa thành công");
@@ -50,13 +81,39 @@ public class Function {
         }
     }
 
-    public void updateAccount(){
-        System.out.println("Nhập account id: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Nhập username mới: ");
-        String username = scanner.nextLine();
-        if(AController.UpdateAccount(username, id) == true){
+    public void updateAccount() {
+        int id;
+
+        while (true) {
+            System.out.println("Nhập account id: ");
+
+            if (scanner.hasNextInt()) {
+                id = scanner.nextInt();
+                scanner.nextLine();
+                if(!AController.CheckAccountIdExist(id)){
+                    System.err.println("Account không tồn tại");
+                    continue;
+                }
+                break;
+            } else {
+                System.out.println("ID phải là số. Vui lòng nhập lại!");
+                scanner.nextLine();
+            }
+        }
+
+        String username = "";
+        while (true) {
+            System.out.println("Nhập username: ");
+            username = checkLength(6,100);
+            boolean checkExist = AController.CheckUsernameExist(username);
+            if (checkExist){
+                System.err.println("Username da ton tai");
+                continue;
+            }
+            break;
+        }
+
+        if (AController.UpdateAccount(username, id)) {
             System.out.println("Sửa thành công");
         } else {
             System.out.println("Sửa thất bại");
@@ -64,12 +121,37 @@ public class Function {
     }
 
     public void addAccount(){
-        System.out.println("Nhập username: ");
-        String username = scanner.nextLine();
-        System.out.println("Nhập fullname: ");
-        String fullName = scanner.nextLine();
-        System.out.println("Nhập email: ");
-        String email = scanner.nextLine();
+        String username = "";
+        while (true) {
+            System.out.println("Nhập username: ");
+            username = checkLength(6,100);
+            boolean checkExist = AController.CheckUsernameExist(username);
+            if (checkExist){
+                System.err.println("Username da ton tai");
+                continue;
+            }
+            break;
+        }
+        String fullName = "";
+        while (true) {
+            System.out.println("Nhập fullname: ");
+            fullName = checkLength(6,100);
+            break;
+        }
+        String email = "";
+        while (true) {
+            System.out.println("Nhập email: ");
+            email = checkLength(6,100);
+            boolean checkExist = AController.CheckEmailExist(email);
+            if (checkExist){
+                System.err.println("Email da ton tai");
+                continue;
+            } else if(isValidEmail(email)){
+                System.err.println("Email khong hop le");
+                continue;
+            }
+            break;
+        }
         System.out.println("Chon gender: 1. Male    2. Female    other.Unknow");
         Gender gender;
         int pickGender = scanner.nextInt();

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IQLDepartmentRepository {
     List<Department> GetAllDepartments();
+    boolean CheckExists(int departmentId);
 }

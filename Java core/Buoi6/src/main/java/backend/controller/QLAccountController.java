@@ -31,4 +31,16 @@ public class QLAccountController {
     public boolean UpdateAccount(String accountName, int accountId){
         return service.UpdateAccount(accountName,accountId);
     }
+
+    public boolean CheckUsernameExist(String username){
+        return service.CheckUsernameExist(username);
+    }
+
+    public boolean CheckEmailExist(String email){
+        return service.CheckEmailExist(email);
+    }
+
+    public boolean CheckAccountIdExist(int accountId){
+        return service.CheckAccountIdExist(accountId);
+    }
 }

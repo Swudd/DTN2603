@@ -16,8 +16,7 @@ public class QLDepartmentController {
         return service.getAllDepartments();
     }
 
-    public static void main(String[] args) {
-        QLDepartmentController controller = new QLDepartmentController();
-        System.out.println(controller.showAllDepartments().toString());
+    public boolean CheckExists(int departmentId){
+        return service.CheckExists(departmentId);
     }
 }
