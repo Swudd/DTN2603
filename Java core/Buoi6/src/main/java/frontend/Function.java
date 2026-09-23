@@ -248,7 +248,8 @@ public class Function {
             System.out.println("3. Hiện thị toàn bộ account");
             System.out.println("4. Tìm kiếm account theo account id");
             System.out.println("5. Đổi tên account theo account id");
-            System.out.println("6. Thoát khỏi chương trình.");
+            System.out.println("6. Import tài liệu.");
+            System.out.println("7. Thoát khỏi chương trình.");
             String choice = scanner.nextLine();
             switch (choice) {
                 case "1":
@@ -267,10 +268,20 @@ public class Function {
                     this.updateAccount();
                     break;
                 case "6":
-                    System.exit(0);
+                    this.importCSV();
+                    break;
+                case "7":
+                     System.exit(0);
                 default:
                     System.out.println("Chọn sai! chọn lại!");
             }
         }
+    }
+
+    public void importCSV() {
+        System.out.println("Nhập vào đường dẫn file csv muốn import: ");
+        String url = scanner.nextLine();
+        String message = AController.importCSV(url);
+        System.out.println(message);
     }
 }

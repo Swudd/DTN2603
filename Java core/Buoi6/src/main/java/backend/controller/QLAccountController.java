@@ -43,4 +43,9 @@ public class QLAccountController {
     public boolean CheckAccountIdExist(int accountId){
         return service.CheckAccountIdExist(accountId);
     }
+
+    public String importCSV(String url) {
+        return service.importCSV(url);
+
+    }
 }
